@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AppBoardRepository extends JpaRepository<UserStatistic, Long> {
+public interface AppBoardRepository extends JpaRepository<UserStatistic, Integer> {
 }
