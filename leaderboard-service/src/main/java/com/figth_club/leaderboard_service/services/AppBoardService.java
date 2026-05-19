@@ -1,6 +1,9 @@
 package com.figth_club.leaderboard_service.services;
 
+import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
+import com.figth_club.leaderboard_service.dtos.LeaderboardResponseDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
+import com.figth_club.leaderboard_service.mappers.LeaderboardMapper;
 import com.figth_club.leaderboard_service.repositories.AppBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppBoardService{
     private final AppBoardRepository appBoardRepository;
+    private final LeaderboardMapper mapper;
 
     //Create line for statistic (for test)
     public UserStatistic createStatistic() {
@@ -56,5 +60,14 @@ public class AppBoardService{
     //Get leaderboard by an idCharacter and by defeats
     public List<UserStatistic> getLeaderboardByCharacterByDefeats(Integer id){
         return appBoardRepository.findAllByIdCharacterOrderByDefeatCounterDesc(id);
+    }
+
+    public LeaderboardResponseDTO getLeaderboardResponseByUserId(Integer idUser) {
+
+        List<UserStatistic> userStats = appBoardRepository.findAllByIdUser(idUser);
+
+        List<CharacterStatsDTO> dtoList = mapper.toCharacterStatsDTOList(userStats);
+
+        return new LeaderboardResponseDTO(dtoList);
     }
 }
