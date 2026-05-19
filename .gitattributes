@@ -1,0 +1,21 @@
+# Forcer LF pour tous les fichiers texte par défaut
+* text=auto eol=lf
+
+# Scripts shell — toujours LF
+*.sh text eol=lf
+
+# Fichiers Maven wrapper — LF pour Unix, CRLF pour Windows
+mvnw text eol=lf
+*.cmd text eol=crlf
+
+# YAML et properties — toujours LF
+*.yaml text eol=lf
+*.yml text eol=lf
+*.properties text eol=lf
+
+# Fichiers binaires — pas de conversion
+*.jar binary
+*.class binary
+*.png binary
+*.jpg binary
+
