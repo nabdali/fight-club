@@ -4,17 +4,18 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
 @Builder
 @AllArgsConstructor
+@Data
 public class RegisterUserDTO {
 
-    @NotBlank(message = "email obligatoire")
-    @Email(message = " format invalide")
+    @NotBlank(message = "Email obligatoire")
+    @Email(message = " Format de l'email invalide")
     private String email;
 
-    @NotBlank(message = "pseudo obligatoire")
+    @NotBlank(message = "Le pseudo est obligatoire")
     private String pseudo;
 
 }

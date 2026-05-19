@@ -1,5 +1,6 @@
 package com.fightclub.userservice;
 
+import com.fightclub.user_service.UserServiceApplication;
 import org.springframework.boot.SpringApplication;
 
 public class TestUserServiceApplication {
