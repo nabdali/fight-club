@@ -12,18 +12,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppBoardEntity {
+public class UserStatistic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private Long idUser;
+    private Integer idUser;
 
-    private Long idCharacter;
+    private Integer idCharacter;
 
-    private Number victory;
+    private Integer victoryCounter;
 
-    private Number defeat;
-
+    private Integer defeatCounter;
 }
