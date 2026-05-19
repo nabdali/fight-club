@@ -16,5 +16,7 @@ public interface AppBoardRepository extends JpaRepository<UserStatistic, Integer
 
     List<UserStatistic> findAllByIdCharacterOrderByDefeatCounterDesc(Integer idCharacter);
 
+    List<UserStatistic> findAllByIdUser(Integer idUser);
+
 
 }
