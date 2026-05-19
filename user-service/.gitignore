@@ -34,4 +34,6 @@ build/
 
 ### DB-H2 ###
 ../data/
+.DS_Store
+
 
