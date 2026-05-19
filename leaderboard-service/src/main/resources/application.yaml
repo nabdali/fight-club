@@ -1,8 +1,8 @@
 spring:
   application:
-    name: arena-service
+    name: leaderboard-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/arena_db
+    url: jdbc:postgresql://localhost:5432/leaderboard_db
     username: fightclub
     password: fightclub
     driver-class-name: org.postgresql.Driver
@@ -16,8 +16,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     enabled: true
-    locations: classpath:db/migration
+    validate-on-migrate: true
     baseline-on-migrate: true
 
 server:
-  port: 8083
+  port: 8084
+

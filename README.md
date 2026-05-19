@@ -18,6 +18,35 @@ Le projet consiste à développer une plateforme de jeu en ligne qui permet aux 
 - Microservice de classement : Gère le classement des joueurs et les récompenses.
 - API Gateway : Point d'entrée unique pour les clients, qui redirige les requêtes vers les microservices appropriés.
 
+## Lancer l'environnement local
+
+Les dépendances tierces (PostgreSQL, Kafka) sont gérées via Docker Compose.
+
+```bash
+# Démarrer tous les services en arrière-plan
+docker-compose up -d
+
+# Vérifier que tout est healthy
+docker-compose ps
+
+# Arrêter les services
+docker-compose down
+```
+
+**Connexion PostgreSQL**
+
+| Paramètre | Valeur          |
+|-----------|-----------------|
+| Host      | `localhost`     |
+| Port      | `5432`          |
+| User      | `fightclub`     |
+| Password  | `fightclub`     |
+| Databases | `user_db`, `character_db`, `arena_db`, `leaderboard_db` |
+
+**Kafka** : `localhost:9092`
+
+> Les données PostgreSQL sont persistées dans `.docker/postgres-data/` et les données Kafka dans `.docker/kafka-data/`.
+
 ## Technologies utilisées
 
 - Java & Spring Boot pour les microservices
