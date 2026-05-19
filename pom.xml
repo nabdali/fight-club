@@ -23,6 +23,7 @@
 		<module>arena-service</module>
 		<module>leaderboard-service</module>
 		<module>character-service</module>
+		<module>gateway-service</module>
 	</modules>
 
 	<properties>
