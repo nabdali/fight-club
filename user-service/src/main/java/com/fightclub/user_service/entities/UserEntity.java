@@ -21,6 +21,5 @@ public class UserEntity {
 
     private String pseudo;
 
-    @ColumnDefault("test")
     private String password;
 }
