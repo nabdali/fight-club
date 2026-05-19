@@ -1,4 +1,4 @@
-package com.fightclub.user_service.custom;
+package com.fightclub.user_service.exception;
 
 import com.fightclub.user_service.exception.custom.UserAlreadyExistsException;
 import lombok.Builder;
