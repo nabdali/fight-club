@@ -1,13 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-echo ">>> Création des bases de données si elles n'existent pas..."
+DATABASES="user_db character_db arena_db leaderboard_db"
 
-for db in user_db character_db arena_db leaderboard_db; do
-    psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" \
-        -tc "SELECT 1 FROM pg_database WHERE datname = '$db'" \
-        | grep -q 1 \
-        || psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" \
-               -c "CREATE DATABASE $db;"
-    echo ">>> Base '$db' prête."
+echo ">>> Verification et creation des bases de donnees (init)..."
+
+for db in $DATABASES; do
+    EXISTS=$(psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '$db'")
+    if [ "$EXISTS" = "1" ]; then
+        echo ">>> Base '$db' existe deja — OK"
+    else
+        psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" -c "CREATE DATABASE $db;"
+        echo ">>> Base '$db' creee avec succes"
+    fi
 done
