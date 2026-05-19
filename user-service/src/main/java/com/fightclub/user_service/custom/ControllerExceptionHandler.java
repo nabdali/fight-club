@@ -1,5 +1,6 @@
-package com.fightclub.user_service.exception.custom;
+package com.fightclub.user_service.custom;
 
+import com.fightclub.user_service.exception.custom.UserAlreadyExistsException;
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
