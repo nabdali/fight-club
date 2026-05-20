@@ -16,6 +16,12 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", ex.getMessage()));
     }
 
+    @ExceptionHandler(CharacterNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleCharacterNotFound(CharacterNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
     @ExceptionHandler(CharacterAlreadyExistsException.class)
     public ResponseEntity<Map<String, String>> handleConflict(CharacterAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
