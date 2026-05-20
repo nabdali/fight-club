@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Entity
 @Builder
@@ -24,8 +22,10 @@ public class UserEntity {
 
     private String password;
 
+    @Column(name = "victory_counter")
     private Integer victoryCounter;
 
+    @Column(name = "defeat_counter")
     private Integer defeatCounter;
 
 }

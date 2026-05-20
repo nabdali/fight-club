@@ -7,12 +7,11 @@ import java.util.Optional;
 
 public interface AppUserRepository extends JpaRepository<UserEntity, Integer> {
 
-    UserEntity findUserEntityByPseudo(String pseudo);
+    Optional<UserEntity> findUserEntityByPseudo(String pseudo);
 
     boolean existsByEmail(String email);
 
     boolean existsByPseudo(String pseudo);
-
 
 }
 

@@ -38,11 +38,8 @@ public class AppUserService {
     }
 
     public Integer loginUser(String username, String password) {
-        UserEntity user = appUserRepository.findUserEntityByPseudo(username);
-
-        if (user == null) {
-            throw new NotFoundException(USER_SERVICE_USER_NOT_FOUND);
-        }
+        UserEntity user = appUserRepository.findUserEntityByPseudo(username)
+                .orElseThrow(() -> new NotFoundException(USER_SERVICE_USER_NOT_FOUND));
 
         if (!user.getPassword().equals(password)) {
             throw new InvalidPasswordException(USER_SERVICE_INVALID_PASSWORD);
