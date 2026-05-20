@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Data
 @Entity
@@ -21,6 +20,12 @@ public class UserEntity {
 
     private String pseudo;
 
-    @ColumnDefault("test")
     private String password;
+
+    @Column(name = "victory_counter")
+    private Integer victoryCounter;
+
+    @Column(name = "defeat_counter")
+    private Integer defeatCounter;
+
 }

@@ -1,20 +1,23 @@
 package com.fightclub.user_service.services;
 
 import com.fightclub.user_service.entities.UserEntity;
+import com.fightclub.user_service.entities.dto.UserStatisticsDTO;
+import com.fightclub.user_service.exception.custom.InvalidPasswordException;
+import com.fightclub.user_service.exception.custom.NotFoundException;
 import com.fightclub.user_service.exception.custom.UserAlreadyExistsException;
 import com.fightclub.user_service.repositories.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.fightclub.user_service.error.ErrorCode.*;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ControllerAdvice
 public class AppUserService {
 
     private final AppUserRepository appUserRepository;
@@ -23,15 +26,25 @@ public class AppUserService {
         return appUserRepository.findAll();
     }
 
-    public String registerUser(UserEntity user) {
+    public UserEntity registerUser(UserEntity user) {
         try {
             if (appUserRepository.existsByEmail(user.getEmail()) || appUserRepository.existsByPseudo(user.getPseudo())) {
-                throw new UserAlreadyExistsException("L'utilisateur existe déjà en db");
+                throw new UserAlreadyExistsException(USER_SERVICE_USER_ALREADY_EXISTS);
             }
-            UserEntity userEntity = appUserRepository.save(user);
-            return userEntity.getEmail();
+            return appUserRepository.save(user);
         } catch (Error e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public Integer loginUser(String username, String password) {
+        UserEntity user = appUserRepository.findUserEntityByPseudo(username)
+                .orElseThrow(() -> new NotFoundException(USER_SERVICE_USER_NOT_FOUND));
+
+        if (!user.getPassword().equals(password)) {
+            throw new InvalidPasswordException(USER_SERVICE_INVALID_PASSWORD);
+        }
+
+        return user.getId();
     }
 }
