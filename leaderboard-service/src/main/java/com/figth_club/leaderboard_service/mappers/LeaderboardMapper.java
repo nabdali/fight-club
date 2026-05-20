@@ -1,6 +1,7 @@
 package com.figth_club.leaderboard_service.mappers;
 
 import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
+import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,9 +14,9 @@ public interface LeaderboardMapper {
 
     @Mapping(target = "name", source = "idCharacter", qualifiedByName = "idToName")
     @Mapping(target = "type", source = "idCharacter", qualifiedByName = "idToType")
-    CharacterStatsDTO toCharacterStatsDTO(UserStatistic statistic);
+    CharacterStatsDTO toCharacterStatsDTO(UserStatisticDTO statistic);
 
-    List<CharacterStatsDTO> toCharacterStatsDTOList(List<UserStatistic> statistics);
+    List<CharacterStatsDTO> toCharacterStatsDTOList(List<UserStatisticDTO> statistics);
 
     // Logique de simulation pour le Nom
     @Named("idToName")

@@ -2,6 +2,7 @@ package com.figth_club.leaderboard_service.services;
 
 import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
 import com.figth_club.leaderboard_service.dtos.LeaderboardResponseDTO;
+import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
 import com.figth_club.leaderboard_service.mappers.LeaderboardMapper;
 import com.figth_club.leaderboard_service.repositories.AppBoardRepository;
@@ -42,29 +43,29 @@ public class AppBoardService{
     }
 
     //Get leaderboard by victories
-    public List<UserStatistic> getLeaderboardByVictories() {
+    public List<UserStatisticDTO> getLeaderboardByVictories() {
         return appBoardRepository.findAllByOrderByVictoryCounterDesc();
     }
 
     //Get leaderboard by defeats
-    public List<UserStatistic> getLeaderboardByDefeats() {
+    public List<UserStatisticDTO> getLeaderboardByDefeats() {
         return appBoardRepository.findAllByOrderByDefeatCounterDesc();
     }
 
     //Get leaderboard by an idCharacter and by victories
-    public List<UserStatistic> getLeaderboardByCharacterByVictories(Integer id){
+    public List<UserStatisticDTO> getLeaderboardByCharacterByVictories(Integer id){
         return appBoardRepository.findAllByIdCharacterOrderByVictoryCounterDesc(id);
     }
 
 
     //Get leaderboard by an idCharacter and by defeats
-    public List<UserStatistic> getLeaderboardByCharacterByDefeats(Integer id){
+    public List<UserStatisticDTO> getLeaderboardByCharacterByDefeats(Integer id){
         return appBoardRepository.findAllByIdCharacterOrderByDefeatCounterDesc(id);
     }
 
     public LeaderboardResponseDTO getLeaderboardResponseByUserId(Integer idUser) {
 
-        List<UserStatistic> userStats = appBoardRepository.findAllByIdUser(idUser);
+        List<UserStatisticDTO> userStats = appBoardRepository.findAllByIdUser(idUser);
 
         List<CharacterStatsDTO> dtoList = mapper.toCharacterStatsDTOList(userStats);
 

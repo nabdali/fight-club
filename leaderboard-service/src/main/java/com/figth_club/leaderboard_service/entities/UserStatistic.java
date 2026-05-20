@@ -24,5 +24,5 @@ public class UserStatistic {
 
     private Integer victoryCounter;
 
-    private Integer defeatCounter;
+    private Integer defeatCounter;  
 }

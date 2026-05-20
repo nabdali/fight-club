@@ -1,9 +1,12 @@
 package com.figth_club.leaderboard_service.controllers;
 
 import com.figth_club.leaderboard_service.dtos.LeaderboardResponseDTO;
+import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
 import com.figth_club.leaderboard_service.services.AppBoardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,13 +16,10 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class BoardController {
 
     private final AppBoardService appBoardService;
-
-    public BoardController(AppBoardService appBoardService) {
-        this.appBoardService = appBoardService;
-    }
 
     @RequestMapping("/leaderboard")
     public List<UserStatistic> getStats(){
@@ -27,36 +27,31 @@ public class BoardController {
     }
 
     @PostMapping("/create")
-    public UserStatistic createStats() {
+    public UserStatistic createStats(){
         return appBoardService.createStatistic();
     }
 
     @GetMapping("/most-victories")
-    public List<UserStatistic> getMostVictories() {
+    public List<UserStatisticDTO> getMostVictories(){
         return appBoardService.getLeaderboardByVictories();
     }
 
     @GetMapping("/most-defeats")
-    public List<UserStatistic> getMostDefeats() {
+    public List<UserStatisticDTO> getMostDefeats() {
         return appBoardService.getLeaderboardByDefeats();
     }
-    @GetMapping("/most-defeats-character/id")
-    public List<UserStatistic> getMostDefeatsByIdC(@RequestParam Integer id) {
+
+    @GetMapping("/most-defeats-character/{id}")
+    public List<UserStatisticDTO> getMostDefeatsByIdC(@PathVariable  Integer id) {
         return appBoardService.getLeaderboardByCharacterByDefeats(id);
     }
-    @GetMapping("/most-victories-character/id")
-    public List<UserStatistic> getMostVictoriesByIdC(@RequestParam Integer id) {
+    @GetMapping("/most-victories-character/{id}")
+    public List<UserStatisticDTO> getMostVictoriesByIdC(@PathVariable Integer id) {
         return appBoardService.getLeaderboardByCharacterByVictories(id);
     }
 
-//    @GetMapping("/characters/id")
-//    public LeaderboardResponseDTO getCharactersByUserId(@RequestParam Integer id){
-//        return appBoardService.
-//    }
-
-    @GetMapping("/user/characters")
-    public LeaderboardResponseDTO getCharactersByUserId(@RequestParam Integer id) {
+    @GetMapping("/user/{id}/characters")
+    public LeaderboardResponseDTO getCharactersByUserId(@PathVariable Integer id) {
         return appBoardService.getLeaderboardResponseByUserId(id);
     }
-
 }
