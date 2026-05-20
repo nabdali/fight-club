@@ -1,10 +1,11 @@
 package com.fightclub.user_service.controllers;
 
-import com.fightclub.user_service.entities.UserDTO;
+import com.fightclub.user_service.entities.dto.CharacterStatsDTO;
+import com.fightclub.user_service.entities.dto.UserDTO;
 import com.fightclub.user_service.entities.UserEntity;
+import com.fightclub.user_service.entities.dto.UserStatisticsDTO;
 import com.fightclub.user_service.mapper.UserMapper;
 import com.fightclub.user_service.services.AppUserService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,6 @@ public class AppUserController {
     public List<UserDTO> getUsers() {
         return appUserService.getUsers().stream().map(userMapper::toDto).toList();
     }
-
-
 
     @PostMapping("/register")
     public UserDTO register(UserDTO dto) {

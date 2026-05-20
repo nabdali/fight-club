@@ -5,7 +5,7 @@ import com.fightclub.user_service.entities.UserEntity;
 
 import java.util.Optional;
 
-public interface AppUserRepository extends JpaRepository<UserEntity, Long> {
+public interface AppUserRepository extends JpaRepository<UserEntity, Integer> {
 
     UserEntity findUserEntityByPseudo(String pseudo);
 

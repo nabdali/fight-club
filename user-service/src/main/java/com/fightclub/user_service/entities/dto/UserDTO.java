@@ -1,10 +1,12 @@
-package com.fightclub.user_service.entities;
+package com.fightclub.user_service.entities.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -17,5 +19,4 @@ public class UserDTO {
 
     @NotBlank(message = "Le pseudo est obligatoire")
     private String pseudo;
-
 }
