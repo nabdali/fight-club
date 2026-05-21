@@ -60,7 +60,7 @@ public class BoardController {
 
 
     @GetMapping("/test/{id}")
-    public List<CharacterDetailsDTO> getCallTest(@PathVariable Integer id){
+    public CharacterDetailsDTO getCallTest(@PathVariable Integer id){
         return characterServiceClient.getCharacterInfo(id);
     }
 
