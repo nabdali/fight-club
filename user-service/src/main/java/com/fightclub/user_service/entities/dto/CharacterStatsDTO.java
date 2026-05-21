@@ -15,7 +15,7 @@ public class CharacterStatsDTO {
 
     private String name;
 
-    private String[] type;
+    private CharacterTypeDTO type;
 
     private Integer victoryCounter;
 
