@@ -10,4 +10,8 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
     boolean existsByUserIdAndCharacterType_Name(Long userId, String name);
 
     List<Character> findByNameContainingIgnoreCase(String name);
+
+    List<Character> UserId(Long userId);
+
+    List<Character> findAllByUserId(Long userId);
 }

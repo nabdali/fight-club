@@ -41,4 +41,8 @@ public class CharacterController {
         var character = characterService.getById(characterId);
         return characterMapper.toDetailResponse(character);
     }
+    @GetMapping("/by-user/{userId}")
+    public  List<CharacterResponse> getCharacterByUserId(@PathVariable Long userId) {
+        return characterService.getCharacterByUserId(userId);
+    }
 }

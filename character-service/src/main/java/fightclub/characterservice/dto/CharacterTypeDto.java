@@ -1,8 +1,12 @@
 package fightclub.characterservice.dto;
 
-import lombok.Value;
+import lombok.*;
 
-@Value
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CharacterTypeDto {
     String name;
     int strength;

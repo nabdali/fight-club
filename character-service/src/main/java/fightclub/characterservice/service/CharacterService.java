@@ -1,28 +1,28 @@
 package fightclub.characterservice.service;
 
 import fightclub.characterservice.dto.CharacterCreateRequest;
+import fightclub.characterservice.dto.CharacterDetailResponse;
+import fightclub.characterservice.dto.CharacterResponse;
 import fightclub.characterservice.entities.Character;
 import fightclub.characterservice.entities.CharacterType;
 import fightclub.characterservice.exception.CharacterAlreadyExistsException;
 import fightclub.characterservice.exception.CharacterNotFoundException;
 import fightclub.characterservice.exception.CharacterTypeNotFoundException;
+import fightclub.characterservice.mapper.CharacterMapper;
 import fightclub.characterservice.repository.CharacterRepository;
 import fightclub.characterservice.repository.CharacterTypeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 public class CharacterService {
 
     private final CharacterRepository characterRepository;
     private final CharacterTypeRepository characterTypeRepository;
+    private final CharacterMapper characterMapper;
 
-    public CharacterService(CharacterRepository characterRepository,
-                            CharacterTypeRepository characterTypeRepository) {
-        this.characterRepository = characterRepository;
-        this.characterTypeRepository = characterTypeRepository;
-    }
 
     public Character createCharacter(CharacterCreateRequest request) {
         CharacterType type = characterTypeRepository
@@ -51,5 +51,10 @@ public class CharacterService {
     public Character getById(Long id) {
         return characterRepository.findById(id)
                 .orElseThrow(() -> new CharacterNotFoundException("Character " + id + " not found"));
+    }
+
+    public  List<CharacterResponse> getCharacterByUserId(Long userId) {
+        List<Character> characters = characterRepository.findAllByUserId(userId);
+        return characterMapper.toResponseList(characters);
     }
 }
