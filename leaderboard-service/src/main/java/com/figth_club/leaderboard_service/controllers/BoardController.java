@@ -2,6 +2,7 @@ package com.figth_club.leaderboard_service.controllers;
 
 import com.figth_club.leaderboard_service.client.CharacterServiceClient;
 import com.figth_club.leaderboard_service.client.dtos.CharacterDetailsDTO;
+import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
 import com.figth_club.leaderboard_service.dtos.LeaderboardResponseDTO;
 import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
@@ -54,14 +55,8 @@ public class BoardController {
     }
 
     @GetMapping("/user/{id}/characters")
-    public LeaderboardResponseDTO getCharactersByUserId(@PathVariable Integer id) {
+    public List<CharacterStatsDTO> getCharactersByUserId(@PathVariable Integer id) {
         return appBoardService.getLeaderboardResponseByUserId(id);
-    }
-
-
-    @GetMapping("/test/{id}")
-    public CharacterDetailsDTO getCallTest(@PathVariable Integer id){
-        return characterServiceClient.getCharacterInfo(id);
     }
 
 }
