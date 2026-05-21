@@ -18,6 +18,7 @@ public class AppBoardService{
     private final AppBoardRepository appBoardRepository;
     private final LeaderboardMapper mapper;
 
+
     //Create line for statistic (for test)
     public UserStatistic createStatistic() {
         UserStatistic newStats = createNewStatistic();
