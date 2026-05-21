@@ -1,5 +1,6 @@
 package com.fightclub.user_service.controllers;
 
+import com.fightclub.user_service.client.LeaderBoardServiceClient;
 import com.fightclub.user_service.entities.dto.CharacterStatsDTO;
 import com.fightclub.user_service.entities.dto.UserDTO;
 import com.fightclub.user_service.entities.UserEntity;
@@ -39,5 +40,10 @@ public class AppUserController {
     @PostMapping("/login")
     public Integer login(String username, String password) {
         return appUserService.loginUser(username, password);
+    }
+
+    @GetMapping("/{userId}/stats")
+    public UserStatisticsDTO getUserStats(@PathVariable Integer userId) {
+        return appUserService.getUserWithStatistics(userId);
     }
 }
