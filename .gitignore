@@ -9,6 +9,9 @@ build/
 # Maven wrapper
 .mvn/wrapper/maven-wrapper.jar
 
+#Env variables
+.env
+
 # Spring Boot
 HELP.md
 
