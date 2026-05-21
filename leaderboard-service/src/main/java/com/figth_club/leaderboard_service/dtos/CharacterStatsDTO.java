@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CharacterStatsDTO {
+    private Integer id;
     private String name;
-    private String type;
+    private Object type;
     private Integer victoryCounter;
     private Integer defeatCounter;
 }
