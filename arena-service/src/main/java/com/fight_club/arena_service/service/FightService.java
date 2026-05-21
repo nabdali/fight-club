@@ -22,6 +22,7 @@ public class FightService {
     private final FightRepository fightRepository;
     private final FightEventProducer fightEventProducer;
     private final CharacterServiceClient characterServiceClient;
+    private final CombatResolver combatResolver;
 
     @Transactional
     public Long startFight(Long characterId) {
@@ -48,9 +49,7 @@ public class FightService {
         CharacterDTO character1 = characterServiceClient.getCharacter(fight.getCharacter1Id());
         CharacterDTO character2 = characterServiceClient.getCharacter(characterId);
 
-        Long winnerId = character1.type().strength() >= character2.type().strength()
-                ? fight.getCharacter1Id()
-                : characterId;
+        Long winnerId = combatResolver.resolve(fight.getCharacter1Id(), character1, characterId, character2);
         Long loserId = winnerId.equals(fight.getCharacter1Id()) ? characterId : fight.getCharacter1Id();
 
         fight.setCharacter2Id(characterId);
