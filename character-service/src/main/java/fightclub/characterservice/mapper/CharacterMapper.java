@@ -13,15 +13,20 @@ public class CharacterMapper {
 
     public CharacterResponse toResponse(Character character) {
         if (character == null) return null;
-        return new CharacterResponse(
-                character.getId(),
-                character.getName(),
-                character.getUserId(),
-                character.getCharacterType() != null ? character.getCharacterType().getName() : null,
-                character.getLevel(),
-                character.getExperience(),
-                character.getCreatedAt()
-        );
+        return CharacterResponse.builder()
+                .id(character.getId())
+                .name(character.getName())
+                .level(character.getLevel())
+                .userId(character.getUserId())
+                .level(character.getLevel())
+                .createdAt(character.getCreatedAt())
+                .characterType(CharacterTypeDto.
+                        builder()
+                        .name(character.getCharacterType().getName())
+                        .health(character.getCharacterType().getHealth())
+                        .strength(character.getCharacterType().getStrength())
+                        .build())
+                .build();
     }
 
     public List<CharacterResponse> toResponseList(List<Character> characters) {
@@ -34,11 +39,13 @@ public class CharacterMapper {
         if (character == null) return null;
         CharacterTypeDto typeDto = null;
         if (character.getCharacterType() != null) {
-            typeDto = new CharacterTypeDto(
-                    character.getCharacterType().getName(),
-                    character.getCharacterType().getStrength(),
-                    character.getCharacterType().getHealth()
-            );
+            typeDto =  CharacterTypeDto.
+
+                    builder()
+                    .name(character.getCharacterType().getName())
+                    .health(character.getCharacterType().getHealth())
+                    .strength(character.getCharacterType().getStrength())
+                    .build();
         }
         return new CharacterDetailResponse(
                 character.getUserId(),
