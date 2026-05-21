@@ -1,10 +1,13 @@
 package com.fightclub.user_service.services;
 
+import com.fightclub.user_service.client.LeaderBoardServiceClient;
 import com.fightclub.user_service.entities.UserEntity;
+import com.fightclub.user_service.entities.dto.CharacterStatsDTO;
 import com.fightclub.user_service.entities.dto.UserStatisticsDTO;
 import com.fightclub.user_service.exception.custom.InvalidPasswordException;
 import com.fightclub.user_service.exception.custom.NotFoundException;
 import com.fightclub.user_service.exception.custom.UserAlreadyExistsException;
+import com.fightclub.user_service.mapper.UserMapper;
 import com.fightclub.user_service.repositories.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,8 @@ import static com.fightclub.user_service.error.ErrorCode.*;
 public class AppUserService {
 
     private final AppUserRepository appUserRepository;
+    private final LeaderBoardServiceClient leaderBoardServiceClient;
+    private final UserMapper userMapper;
 
     public List<UserEntity> getUsers() {
         return appUserRepository.findAll();
@@ -47,4 +52,19 @@ public class AppUserService {
 
         return user.getId();
     }
+
+    public UserStatisticsDTO getUserWithStatistics(Integer userId) {
+        UserEntity user = appUserRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(USER_SERVICE_USER_NOT_FOUND));
+
+        List<CharacterStatsDTO> characterStats;
+        try {
+            characterStats = leaderBoardServiceClient.getUsersStatistics(userId);
+        } catch (NotFoundException e) {
+            characterStats = List.of();
+        }
+
+        return userMapper.toDto(user, characterStats);
+    }
+
 }

@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CharacterStatsDTO {
 
+    private Integer id;
+
     private String name;
 
-    private String type;
+    private String[] type;
 
     private Integer victoryCounter;
 

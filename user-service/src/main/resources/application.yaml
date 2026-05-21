@@ -19,8 +19,12 @@ spring:
       locations: classpath:db/migration
       baseline-on-migrate: true
       repair: true
-  server:
-    port: 8084
+server:
+  port: 8084
+
+services:
+  character:
+    url: http://localhost:8085
 
 
 
