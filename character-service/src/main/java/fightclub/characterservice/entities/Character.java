@@ -26,7 +26,7 @@ public class Character {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "character_type_id", nullable = false)
-    @ToString.Exclude // Évite les boucles infinies / N+1 si CharacterType a des liens retour
+    @ToString.Exclude
     private CharacterType characterType;
 
     @Column(nullable = false)

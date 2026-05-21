@@ -1,13 +1,12 @@
 package fightclub.characterservice.controllers;
 
 import fightclub.characterservice.dto.CharacterCreateRequest;
+import fightclub.characterservice.dto.CharacterDetailResponse;
 import fightclub.characterservice.dto.CharacterResponse;
 import fightclub.characterservice.mapper.CharacterMapper;
 import fightclub.characterservice.service.CharacterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,14 +20,25 @@ public class CharacterController {
     private final CharacterMapper characterMapper;
 
     @PostMapping
-    public ResponseEntity<CharacterResponse> createCharacter(@Valid @RequestBody CharacterCreateRequest request) {
+    public CharacterResponse createCharacter(@Valid @RequestBody CharacterCreateRequest request) {
         var created = characterService.createCharacter(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(characterMapper.toResponse(created));
+        return characterMapper.toResponse(created);
+    }
+
+    @GetMapping("/")
+    public List<CharacterResponse> getAllCharacters() {
+        return characterMapper.toResponseList(characterService.getAll());
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<CharacterResponse>> searchByName(@RequestParam String name) {
+    public List<CharacterResponse> searchByName(@RequestParam String name) {
         var found = characterService.findByName(name);
-        return ResponseEntity.ok(characterMapper.toResponseList(found));
+        return characterMapper.toResponseList(found);
+    }
+
+    @GetMapping("/{characterId}")
+    public CharacterDetailResponse getCharacterById(@PathVariable Long characterId) {
+        var character = characterService.getById(characterId);
+        return characterMapper.toDetailResponse(character);
     }
 }
