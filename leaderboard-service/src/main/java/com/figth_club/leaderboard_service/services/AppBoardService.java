@@ -1,7 +1,5 @@
 package com.figth_club.leaderboard_service.services;
 
-import com.figth_club.leaderboard_service.client.CharacterServiceClient;
-import com.figth_club.leaderboard_service.client.dtos.CharacterDetailsDTO;
 import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
 import com.figth_club.leaderboard_service.dtos.LeaderboardResponseDTO;
 import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
@@ -10,21 +8,17 @@ import com.figth_club.leaderboard_service.mappers.LeaderboardMapper;
 import com.figth_club.leaderboard_service.repositories.AppBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AppBoardService {
+public class AppBoardService{
     private final AppBoardRepository appBoardRepository;
     private final LeaderboardMapper mapper;
-    private final CharacterServiceClient characterServiceClient;
 
-    // Create line for statistic (for test)
+    //Create line for statistic (for test)
     public UserStatistic createStatistic() {
         UserStatistic newStats = createNewStatistic();
         return appBoardRepository.save(newStats);
@@ -43,56 +37,38 @@ public class AppBoardService {
         return newStats;
     }
 
-    // Get all statistics
+    //Get all statistics
     public List<UserStatistic> getAllStatistics() {
         return appBoardRepository.findAll();
     }
-    
+
+    //Get leaderboard by victories
     public List<UserStatisticDTO> getLeaderboardByVictories() {
-        List<UserStatistic> entities = appBoardRepository.findAllByOrderByVictoryCounterDesc();
-        return mapper.toUserStatisticDTOList(entities);
+        return appBoardRepository.findAllByOrderByVictoryCounterDesc();
     }
 
+    //Get leaderboard by defeats
     public List<UserStatisticDTO> getLeaderboardByDefeats() {
-        List<UserStatistic> entities = appBoardRepository.findAllByOrderByDefeatCounterDesc();
-        return mapper.toUserStatisticDTOList(entities);
+        return appBoardRepository.findAllByOrderByDefeatCounterDesc();
     }
 
-    public List<UserStatisticDTO> getLeaderboardByCharacterByVictories(Integer id) {
-        List<UserStatistic> entities = appBoardRepository.findAllByIdCharacterOrderByVictoryCounterDesc(id);
-        return mapper.toUserStatisticDTOList(entities);
+    //Get leaderboard by an idCharacter and by victories
+    public List<UserStatisticDTO> getLeaderboardByCharacterByVictories(Integer id){
+        return appBoardRepository.findAllByIdCharacterOrderByVictoryCounterDesc(id);
     }
 
-    public List<UserStatisticDTO> getLeaderboardByCharacterByDefeats(Integer id) {
-        List<UserStatistic> entities = appBoardRepository.findAllByIdCharacterOrderByDefeatCounterDesc(id);
-        return mapper.toUserStatisticDTOList(entities);
+
+    //Get leaderboard by an idCharacter and by defeats
+    public List<UserStatisticDTO> getLeaderboardByCharacterByDefeats(Integer id){
+        return appBoardRepository.findAllByIdCharacterOrderByDefeatCounterDesc(id);
     }
 
-    public List<CharacterStatsDTO> getLeaderboardResponseByUserId(Integer idUser) {
-        List<UserStatistic> entities = appBoardRepository.findAllByIdUser(idUser);
-        List<UserStatisticDTO> userStats = mapper.toUserStatisticDTOList(entities);
+    public LeaderboardResponseDTO getLeaderboardResponseByUserId(Integer idUser) {
 
-        Map<Integer, CharacterDetailsDTO> cache = new HashMap<>();
-        try {
-            List<CharacterDetailsDTO> allCharacters = characterServiceClient.getCharacterInfo(idUser);
+        List<UserStatisticDTO> userStats = appBoardRepository.findAllByIdUser(idUser);
 
-            if (allCharacters != null) {
-                for (CharacterDetailsDTO detail : allCharacters) {
-                    cache.put(detail.getId(), detail);
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération des personnages pour l'user " + idUser + " : " + e.getMessage());
-        }
+        List<CharacterStatsDTO> dtoList = mapper.toCharacterStatsDTOList(userStats);
 
-        List<CharacterStatsDTO> dtoList = new ArrayList<>();
-        for (UserStatisticDTO stat : userStats) {
-            CharacterDetailsDTO characterDetail = cache.get(stat.getIdCharacter());
-
-            CharacterStatsDTO dto = mapper.toCharacterStatsDTO(stat, characterDetail);
-            dtoList.add(dto);
-        }
-
-        return dtoList;
+        return new LeaderboardResponseDTO(dtoList);
     }
 }

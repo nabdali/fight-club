@@ -1,8 +1,5 @@
 package com.figth_club.leaderboard_service.controllers;
 
-import com.figth_club.leaderboard_service.client.CharacterServiceClient;
-import com.figth_club.leaderboard_service.client.dtos.CharacterDetailsDTO;
-import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
 import com.figth_club.leaderboard_service.dtos.LeaderboardResponseDTO;
 import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,8 +20,6 @@ import java.util.List;
 public class BoardController {
 
     private final AppBoardService appBoardService;
-
-    private final CharacterServiceClient characterServiceClient;
 
     @RequestMapping("/leaderboard")
     public List<UserStatistic> getStats(){
@@ -55,8 +51,7 @@ public class BoardController {
     }
 
     @GetMapping("/user/{id}/characters")
-    public List<CharacterStatsDTO> getCharactersByUserId(@PathVariable Integer id) {
+    public LeaderboardResponseDTO getCharactersByUserId(@PathVariable Integer id) {
         return appBoardService.getLeaderboardResponseByUserId(id);
     }
-
 }
