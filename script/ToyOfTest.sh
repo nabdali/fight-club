@@ -32,9 +32,10 @@ docker exec -i $CONTAINER_NAME psql -v ON_ERROR_STOP=1 -U $DB_USER -d $CHAR_DB <
 INSERT INTO character_type (id, name, strength, health)
 OVERRIDING SYSTEM VALUE
 VALUES
-    (1, 'Guerrier', 15, 120),
-    (2, 'MAGE', 5, 70),
+    (1, 'Assasin', 90, 50),
+    (2, 'Mage', 5, 70),
     (3, 'Archer', 10, 150)
+    (4, 'Tank', 2, 300)
 ON CONFLICT (id) DO UPDATE SET
     name = EXCLUDED.name,
     strength = EXCLUDED.strength,
@@ -51,8 +52,8 @@ echo -e "\nCréation ou mise a jour des personnages."
 docker exec -i $CONTAINER_NAME psql -v ON_ERROR_STOP=1 -U $DB_USER -d $CHAR_DB <<EOF
 INSERT INTO character (name, character_type_id, user_id, level, experience, created_at)
 VALUES
-    ('Sephoyoooo', 1, 1056, 10, 450, NOW()),
-    ('Zwinxx', 2, 1057, 5, 120, NOW()),
+    ('Sephoyoooo', 2, 1056, 10, 450, NOW()),
+    ('Zwinxx', 1, 1057, 5, 120, NOW()),
     ('Nanash', 3, 1058, 20, 1500, NOW())
 ON CONFLICT (name) DO UPDATE SET
     character_type_id = EXCLUDED.character_type_id,
