@@ -18,7 +18,7 @@ public class LeaderBoardServiceClient {
 
     public List<CharacterStatsDTO> getUsersStatistics(Integer userId) {
         return leaderBoardRestClient.get()
-                .uri("/characters/user/{userId}", userId)
+                .uri("api/user/{userId}/characters", userId)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
                     throw new NotFoundException("Characters not found for user: " + userId);
