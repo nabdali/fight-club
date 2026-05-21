@@ -68,32 +68,38 @@ public class AppBoardService {
         return mapper.toUserStatisticDTOList(entities);
     }
 
-    public LeaderboardResponseDTO getLeaderboardResponseByUserId(Integer idUser) {
+    public List<CharacterStatsDTO> getLeaderboardResponseByUserId(Integer idUser) {
+        // 1. Récupération des stats de victoires/défaites en base locale
         List<UserStatistic> entities = appBoardRepository.findAllByIdUser(idUser);
-
         List<UserStatisticDTO> userStats = mapper.toUserStatisticDTOList(entities);
 
+        // 2. Récupération de TOUS les personnages de l'utilisateur (un seul appel réseau)
         Map<Integer, CharacterDetailsDTO> cache = new HashMap<>();
-        List<CharacterStatsDTO> dtoList = new ArrayList<>();
+        try {
+            // On récupère la liste (car ton endpoint /by-user/{id} renvoie un tableau JSON)
+            List<CharacterDetailsDTO> allCharacters = characterServiceClient.getCharacterInfo(idUser);
 
-        for (UserStatisticDTO stat : userStats) {
-            Integer characterId = stat.getIdCharacter();
-            if (characterId != null && !cache.containsKey(characterId)) {
-                try {
-                    CharacterDetailsDTO details = characterServiceClient.getCharacterInfo(characterId);
-                    cache.put(characterId, details);
-                } catch (RuntimeException e) {
-                    System.err.println("Impossible de récupérer le personnage " + characterId + " : " + e.getMessage());
+            // On remplit le cache : Clé = ID du personnage, Valeur = l'objet complet
+            if (allCharacters != null) {
+                for (CharacterDetailsDTO detail : allCharacters) {
+                    cache.put(detail.getId(), detail);
                 }
             }
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération des personnages pour l'user " + idUser + " : " + e.getMessage());
         }
 
+        // 3. Fusion des données (Stats locales + Détails distants)
+        List<CharacterStatsDTO> dtoList = new ArrayList<>();
         for (UserStatisticDTO stat : userStats) {
+            // On récupère les détails via l'ID du personnage stocké dans la stat
             CharacterDetailsDTO characterDetail = cache.get(stat.getIdCharacter());
+
+            // Le mapper va maintenant avoir un objet 'detail' non null
             CharacterStatsDTO dto = mapper.toCharacterStatsDTO(stat, characterDetail);
             dtoList.add(dto);
         }
 
-        return new LeaderboardResponseDTO(dtoList);
+        return dtoList;
     }
 }
