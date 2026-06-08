@@ -8,13 +8,13 @@ server:
 gateway:
   routes:
     - path: /users
-      uri: http://localhost:8084
+      uri: http://user-service:8084
     - path: /characters
-      uri: http://localhost:8082
+      uri: http://character-service:8082
     - path: /arena
-      uri: http://localhost:8083
+      uri: http://arena-service:8083
     - path: /api/leaderboard
-      uri: http://localhost:8085
+      uri: http://leaderboard-service:8085
 
 management:
   endpoints:

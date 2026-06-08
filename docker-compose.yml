@@ -78,13 +78,13 @@ services:
       dockerfile: Dockerfile
     container_name: fight-club-user
     ports:
-      - "8081:8081"
+      - "8084:8084"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/user_db
       SPRING_DATASOURCE_USERNAME: fightclub
       SPRING_DATASOURCE_PASSWORD: fightclub
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      SERVER_PORT: 8081
+      SERVER_PORT: 8084
     depends_on:
       postgres:
         condition: service_healthy
@@ -150,13 +150,13 @@ services:
       dockerfile: Dockerfile
     container_name: fight-club-leaderboard
     ports:
-      - "8084:8084"
+      - "8085:8085"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/leaderboard_db
       SPRING_DATASOURCE_USERNAME: fightclub
       SPRING_DATASOURCE_PASSWORD: fightclub
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      SERVER_PORT: 8084
+      SERVER_PORT: 8085
     depends_on:
       postgres:
         condition: service_healthy
