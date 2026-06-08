@@ -1,10 +1,8 @@
 package com.fightclub.user_service.controllers;
 
 import com.fightclub.user_service.client.LeaderBoardServiceClient;
-import com.fightclub.user_service.entities.dto.CharacterStatsDTO;
-import com.fightclub.user_service.entities.dto.UserDTO;
+import com.fightclub.user_service.entities.dto.*;
 import com.fightclub.user_service.entities.UserEntity;
-import com.fightclub.user_service.entities.dto.UserStatisticsDTO;
 import com.fightclub.user_service.mapper.UserMapper;
 import com.fightclub.user_service.services.AppUserService;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +25,19 @@ public class AppUserController {
     }
 
     @PostMapping("/register")
-    public UserDTO register(UserDTO dto) {
+    public UserDTO register(@RequestBody CreateUserRequestDTO dto) {
         UserEntity entity = UserEntity.builder()
                 .email(dto.getEmail())
                 .pseudo(dto.getPseudo())
-                .password("test")
+                .password(dto.getPassword())
                 .build();
         UserEntity user = appUserService.registerUser(entity);
         return userMapper.toDto(user);
     }
 
     @PostMapping("/login")
-    public Integer login(String username, String password) {
-        return appUserService.loginUser(username, password);
+    public Integer login(@RequestBody LoginUserRequestDTO user) {
+        return appUserService.loginUser(user);
     }
 
     @GetMapping("/{userId}/stats")

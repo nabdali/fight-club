@@ -3,6 +3,7 @@ package com.fightclub.user_service.services;
 import com.fightclub.user_service.client.LeaderBoardServiceClient;
 import com.fightclub.user_service.entities.UserEntity;
 import com.fightclub.user_service.entities.dto.CharacterStatsDTO;
+import com.fightclub.user_service.entities.dto.LoginUserRequestDTO;
 import com.fightclub.user_service.entities.dto.UserStatisticsDTO;
 import com.fightclub.user_service.exception.custom.InvalidPasswordException;
 import com.fightclub.user_service.exception.custom.NotFoundException;
@@ -42,11 +43,19 @@ public class AppUserService {
         }
     }
 
-    public Integer loginUser(String username, String password) {
-        UserEntity user = appUserRepository.findUserEntityByPseudo(username)
+    public Integer loginUser(LoginUserRequestDTO userDto) {
+
+        log.info("Tentative login pour pseudo: '{}'", userDto.getPseudo());
+        log.info("Pseudo length: {}", userDto.getPseudo() != null ? userDto.getPseudo().length() : "null");
+
+        Optional<UserEntity> found = appUserRepository.findUserEntityByPseudo(userDto.getPseudo());
+        log.info("User found: {}", found.isPresent());
+
+
+        UserEntity user = appUserRepository.findUserEntityByPseudo(userDto.getPseudo())
                 .orElseThrow(() -> new NotFoundException(USER_SERVICE_USER_NOT_FOUND));
 
-        if (!user.getPassword().equals(password)) {
+        if (!user.getPassword().equals(userDto.getPassword())) {
             throw new InvalidPasswordException(USER_SERVICE_INVALID_PASSWORD);
         }
 
