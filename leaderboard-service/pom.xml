@@ -14,4 +14,17 @@
 	<name>leaderboard-service</name>
 	<description>Microservice de classement et récompenses</description>
 
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
+		</dependency>
+	</dependencies>
+
+
 </project>
