@@ -78,7 +78,7 @@ services:
       dockerfile: Dockerfile
     container_name: fight-club-user
     ports:
-      - "8081:8081"
+      - "8084:8084"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/user_db
       POSTGRES_USER: ${DB_USERNAME}
@@ -150,7 +150,7 @@ services:
       dockerfile: Dockerfile
     container_name: fight-club-leaderboard
     ports:
-      - "8084:8084"
+      - "8085:8085"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/leaderboard_db
       POSTGRES_USER: ${DB_USERNAME}
