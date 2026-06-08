@@ -1,6 +1,7 @@
 package com.fightclub.user_service.mapper;
 
 import com.fightclub.user_service.entities.dto.CharacterStatsDTO;
+import com.fightclub.user_service.entities.dto.LoginUserRequestDTO;
 import com.fightclub.user_service.entities.dto.UserDTO;
 import com.fightclub.user_service.entities.UserEntity;
 import com.fightclub.user_service.entities.dto.UserStatisticsDTO;
@@ -17,6 +18,8 @@ public interface UserMapper {
 
     @Mapping(source = "id", target = "id")
     UserEntity toEntity(UserDTO user);
+
+    UserEntity toEntity(LoginUserRequestDTO user);
 
     @Mapping(source = "user.victoryCounter", target = "victoryCounter")
     @Mapping(source = "user.defeatCounter", target = "defeatCounter")
