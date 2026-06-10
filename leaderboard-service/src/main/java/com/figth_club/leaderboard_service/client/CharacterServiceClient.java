@@ -24,4 +24,14 @@ public class CharacterServiceClient {
                 })
                 .body(new ParameterizedTypeReference<List<CharacterDetailsDTO>>() {});
     }
+
+    public CharacterDetailsDTO getCharacterById(Integer characterId) {
+        return characterRestClient.get()
+                .uri("/api/characters/{characterId}", characterId)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                    throw new RuntimeException("Character introuvable : " + characterId);
+                })
+                .body(CharacterDetailsDTO.class);
+    }
 }

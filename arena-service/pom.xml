@@ -13,13 +13,4 @@
 	<artifactId>arena-service</artifactId>
 	<name>arena-service</name>
 	<description>Microservice d'arène de combat</description>
-
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
-	</dependencies>
-
 </project>

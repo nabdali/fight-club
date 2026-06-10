@@ -6,25 +6,37 @@ spring:
     username: fightclub
     password: fightclub
     driver-class-name: org.postgresql.Driver
-    jpa:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
       hibernate:
-        ddl-auto: validate
-      show-sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    repair: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: user-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer:  org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        hibernate:
-          format_sql: true
-          dialect: org.hibernate.dialect.PostgreSQLDialect
-    flyway:
-      enabled: true
-      locations: classpath:db/migration
-      baseline-on-migrate: true
-      repair: true
+        spring.json.value.default.type: com.fightclub.user_service.entities.dto.LeaderBoardUpdated
+
 server:
   port: 8084
 
 services:
   character:
     url: http://character-service:8082
+  leaderboard:
+    url: http://leaderboard-service:8085
 
 
 
