@@ -14,12 +14,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service:
-          - arena-service
-          - character-service
-          - gateway-service
-          - leaderboard-service
-          - user-service
+        include:
+          - service: arena-service
+            context: .
+            file: arena-service/Dockerfile
+          - service: character-service
+            context: .
+            file: character-service/Dockerfile
+          - service: gateway-service
+            context: .
+            file: gateway-service/Dockerfile
+          - service: leaderboard-service
+            context: .
+            file: leaderboard-service/Dockerfile
+          - service: user-service
+            context: .
+            file: user-service/Dockerfile
+          - service: postgres
+            context: .docker
+            file: .docker/Dockerfile.postgres
 
     steps:
       - uses: actions/checkout@v4
@@ -43,8 +56,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ${{ matrix.service }}/Dockerfile
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
