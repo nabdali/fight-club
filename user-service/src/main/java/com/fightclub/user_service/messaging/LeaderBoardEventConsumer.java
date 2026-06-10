@@ -2,6 +2,7 @@ package com.fightclub.user_service.messaging;
 
 import com.fightclub.user_service.entities.dto.LeaderBoardUpdated;
 import com.fightclub.user_service.services.AppUserService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -14,11 +15,16 @@ public class LeaderBoardEventConsumer {
 
     private final AppUserService appUserService;
 
-    @KafkaListener(topics = "", groupId = "")
-    @KafkaListener(topics = "fight.ended", groupId = "leaderboard-group")
+    @PostConstruct
+    public void init() {
+        log.info("LeaderBoardEventConsumer started — listening on topic 'stats.update'");
+    }
+
+    @KafkaListener(topics = "stats.update", groupId = "user-service-group")
     public void onFightEnded(LeaderBoardUpdated event) {
-        log.info("Fight ended received: userId={}", event.userId());
+        log.info("Message reçu : {}", event);
         try {
+            log.info("Fight ended received: winnerID={}, looserId={}", event.winnerId(), event.looserId());
         } catch (Exception e) {
             log.error("Erreur lors du traitement du fight.ended {}", e.getMessage());
         }
