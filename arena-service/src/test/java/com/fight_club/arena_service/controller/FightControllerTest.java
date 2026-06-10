@@ -51,7 +51,7 @@ class FightControllerTest {
     void startFight_shouldReturn201WithFightId() throws Exception {
         when(fightService.startFight(1L)).thenReturn(42L);
 
-        mockMvc.perform(post("/fights/start/1"))
+        mockMvc.perform(post("/arena/start/1"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.fightId").value(42));
     }
@@ -60,7 +60,7 @@ class FightControllerTest {
     void joinFight_shouldReturn200WithFightId() throws Exception {
         when(fightService.joinFight(2L)).thenReturn(42L);
 
-        mockMvc.perform(post("/fights/join/2"))
+        mockMvc.perform(post("/arena/join/2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.fightId").value(42));
     }
@@ -71,7 +71,7 @@ class FightControllerTest {
         FightResultDTO dto = new FightResultDTO(42L, 1L, 2L, 1L, FightStatus.ENDED, now.minusMinutes(1), now);
         when(fightService.getFightResult(42L)).thenReturn(dto);
 
-        mockMvc.perform(get("/fights/42/result"))
+        mockMvc.perform(get("/arena/42/result"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.fightId").value(42))
                 .andExpect(jsonPath("$.character1Id").value(1))
@@ -84,7 +84,7 @@ class FightControllerTest {
     void getFightResult_shouldReturn404WhenNotFound() throws Exception {
         when(fightService.getFightResult(99L)).thenThrow(new IllegalArgumentException("Fight not found: 99"));
 
-        mockMvc.perform(get("/fights/99/result"))
+        mockMvc.perform(get("/arena/99/result"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.description").value("Fight not found: 99"));
     }
