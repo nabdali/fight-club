@@ -46,7 +46,7 @@ public class AppBoardServiceImpl implements AppBoardService {
     public List<UserStatistic> getAllStatistics() {
         return appBoardRepository.findAll();
     }
-    
+
     public List<UserStatisticDTO> getLeaderboardByVictories() {
         List<UserStatistic> entities = appBoardRepository.findAllByOrderByVictoryCounterDesc();
         return mapper.toUserStatisticDTOList(entities);
@@ -93,5 +93,21 @@ public class AppBoardServiceImpl implements AppBoardService {
         }
 
         return dtoList;
+    }
+
+    public void processMatchResult(long winnerId, long loserId) {
+        UserStatistic winner = appBoardRepository.findByIdCharacter((int) winnerId)
+                .orElseThrow(() -> new IllegalArgumentException("Winner introuvable : " + winnerId));
+
+        UserStatistic loser = appBoardRepository.findByIdCharacter((int) loserId)
+                .orElseThrow(() -> new IllegalArgumentException("Loser introuvable : " + loserId));
+
+        winner.setVictoryCounter(winner.getVictoryCounter() + 1);
+        loser.setDefeatCounter(loser.getDefeatCounter() + 1);
+
+        appBoardRepository.save(winner);
+        appBoardRepository.save(loser);
+
+
     }
 }
