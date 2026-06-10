@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AppBoardRepository extends JpaRepository<UserStatistic, Integer> {
@@ -19,4 +20,6 @@ public interface AppBoardRepository extends JpaRepository<UserStatistic, Integer
     List<UserStatistic> findAllByIdCharacterOrderByDefeatCounterDesc(Integer idCharacter);
 
     List<UserStatistic> findAllByIdUser(Integer idUser);
+
+    Optional<UserStatistic> findByIdCharacter(Integer idCharacter);
 }

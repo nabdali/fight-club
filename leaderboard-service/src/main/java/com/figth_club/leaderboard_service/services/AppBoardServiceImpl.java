@@ -3,7 +3,6 @@ package com.figth_club.leaderboard_service.services;
 import com.figth_club.leaderboard_service.client.CharacterServiceClient;
 import com.figth_club.leaderboard_service.client.dtos.CharacterDetailsDTO;
 import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
-import com.figth_club.leaderboard_service.dtos.LeaderboardResponseDTO;
 import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
 import com.figth_club.leaderboard_service.mappers.LeaderboardMapper;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AppBoardService {
+public class AppBoardServiceImpl implements AppBoardService {
     private final AppBoardRepository appBoardRepository;
     private final LeaderboardMapper mapper;
     private final CharacterServiceClient characterServiceClient;
