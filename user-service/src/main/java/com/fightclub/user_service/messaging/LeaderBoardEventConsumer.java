@@ -22,9 +22,13 @@ public class LeaderBoardEventConsumer {
 
     @KafkaListener(topics = "stats.update", groupId = "user-service-group")
     public void onFightEnded(LeaderBoardUpdated event) {
+        if (event == null) {
+            log.warn("Message vide ou non désérialisable reçu sur stats.update, ignoré");
+            return;
+        }
         log.info("Message reçu : {}", event);
         try {
-            log.info("Fight ended received: winnerID={}, looserId={}", event.winnerId(), event.looserId());
+            appUserService.updateFightStats(event.winnerId(), event.looserId());
         } catch (Exception e) {
             log.error("Erreur lors du traitement du fight.ended {}", e.getMessage());
         }

@@ -1,6 +1,5 @@
 package com.figth_club.leaderboard_service.messaging;
 
-import com.figth_club.leaderboard_service.dtos.FightEndedEvent;
 import com.figth_club.leaderboard_service.dtos.StatsUpdated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
