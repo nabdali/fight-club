@@ -3,9 +3,11 @@ package com.figth_club.leaderboard_service.services;
 import com.figth_club.leaderboard_service.client.CharacterServiceClient;
 import com.figth_club.leaderboard_service.client.dtos.CharacterDetailsDTO;
 import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
+import com.figth_club.leaderboard_service.dtos.StatsUpdated;
 import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
 import com.figth_club.leaderboard_service.mappers.LeaderboardMapper;
+import com.figth_club.leaderboard_service.messaging.LeaderBoardEventProducer;
 import com.figth_club.leaderboard_service.repositories.AppBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class AppBoardServiceImpl implements AppBoardService {
     private final AppBoardRepository appBoardRepository;
     private final LeaderboardMapper mapper;
     private final CharacterServiceClient characterServiceClient;
+    private final LeaderBoardEventProducer producer;
 
     // Create line for statistic (for test)
     public UserStatistic createStatistic() {
@@ -108,6 +111,11 @@ public class AppBoardServiceImpl implements AppBoardService {
         appBoardRepository.save(winner);
         appBoardRepository.save(loser);
 
+        StatsUpdated statsUpdated = new StatsUpdated(
+                winner.getIdUser().longValue(),
+                loser.getIdUser().longValue()
+        );
 
+        producer.publishStatsUpdated(statsUpdated);
     }
 }

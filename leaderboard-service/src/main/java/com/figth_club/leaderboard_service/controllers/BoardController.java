@@ -4,6 +4,7 @@ import com.figth_club.leaderboard_service.client.CharacterServiceClient;
 import com.figth_club.leaderboard_service.dtos.CharacterStatsDTO;
 import com.figth_club.leaderboard_service.dtos.UserStatisticDTO;
 import com.figth_club.leaderboard_service.entities.UserStatistic;
+import com.figth_club.leaderboard_service.messaging.LeaderBoardEventProducer;
 import com.figth_club.leaderboard_service.services.AppBoardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ import java.util.List;
 public class BoardController {
 
     private final AppBoardServiceImpl appBoardServiceImpl;
+    private final LeaderBoardEventProducer leaderBoardEventProducer;
+
 
     private final CharacterServiceClient characterServiceClient;
 
@@ -56,5 +59,4 @@ public class BoardController {
     public List<CharacterStatsDTO> getCharactersByUserId(@PathVariable Integer id) {
         return appBoardServiceImpl.getLeaderboardResponseByUserId(id);
     }
-
 }
