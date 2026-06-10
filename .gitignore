@@ -15,8 +15,9 @@ build/
 # Spring Boot
 HELP.md
 
-# Data directories
-.docker/
+# Data directories (volumes)
+.docker/postgres-data/
+.docker/kafka-data/
 data/
 
 ### STS ###

@@ -1,7 +1,7 @@
 services:
 
   postgres:
-    image: postgres:15-alpine
+    image: ghcr.io/nabdali/fight-club/postgres:latest
     container_name: fight-club-postgres
     environment:
       POSTGRES_USER: ${DB_USERNAME}
@@ -10,34 +10,19 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./.docker/postgres-data:/var/lib/postgresql/data
-      - ./.docker/init-scripts/init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - fight-club-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fightclub"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  db-init:
-    image: postgres:15-alpine
-    container_name: fight-club-db-init
-    depends_on:
-      postgres:
-        condition: service_healthy
-    volumes:
-      - ./.docker/init-scripts/ensure-databases.sh:/ensure-databases.sh
-    entrypoint: ["bash", "/ensure-databases.sh"]
-    networks:
-      - fight-club-net
-    restart: on-failure
 
   kafka:
     image: apache/kafka:latest
     container_name: fight-club-kafka
     environment:
-      # KRaft mode — no Zookeeper required
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
@@ -50,7 +35,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG_DIRS: /var/lib/kafka/data
     volumes:
-      - ./.docker/kafka-data:/var/lib/kafka/data
+      - kafka-data:/var/lib/kafka/data
     networks:
       - fight-club-net
     healthcheck:
@@ -61,9 +46,7 @@ services:
       start_period: 30s
 
   gateway-service:
-    build:
-      context: .
-      dockerfile: gateway-service/Dockerfile
+    image: ghcr.io/nabdali/fight-club/gateway-service:latest
     container_name: fight-club-gateway
     ports:
       - "8080:8080"
@@ -72,9 +55,7 @@ services:
     restart: on-failure
 
   user-service:
-    build:
-      context: .
-      dockerfile: user-service/Dockerfile
+    image: ghcr.io/nabdali/fight-club/user-service:latest
     container_name: fight-club-user
     ports:
       - "8084:8084"
@@ -89,16 +70,12 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-      db-init:
-        condition: service_completed_successfully
     networks:
       - fight-club-net
     restart: on-failure
 
   character-service:
-    build:
-      context: .
-      dockerfile: character-service/Dockerfile
+    image: ghcr.io/nabdali/fight-club/character-service:latest
     container_name: fight-club-character
     ports:
       - "8082:8082"
@@ -113,16 +90,12 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-      db-init:
-        condition: service_completed_successfully
     networks:
       - fight-club-net
     restart: on-failure
 
   arena-service:
-    build:
-      context: .
-      dockerfile: arena-service/Dockerfile
+    image: ghcr.io/nabdali/fight-club/arena-service:latest
     container_name: fight-club-arena
     ports:
       - "8083:8083"
@@ -137,16 +110,12 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-      db-init:
-        condition: service_completed_successfully
     networks:
       - fight-club-net
     restart: on-failure
 
   leaderboard-service:
-    build:
-      context: .
-      dockerfile: leaderboard-service/Dockerfile
+    image: ghcr.io/nabdali/fight-club/leaderboard-service:latest
     container_name: fight-club-leaderboard
     ports:
       - "8085:8085"
@@ -161,8 +130,6 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-      db-init:
-        condition: service_completed_successfully
     networks:
       - fight-club-net
     restart: on-failure
@@ -170,3 +137,7 @@ services:
 networks:
   fight-club-net:
     driver: bridge
+
+volumes:
+  postgres-data:
+  kafka-data:
