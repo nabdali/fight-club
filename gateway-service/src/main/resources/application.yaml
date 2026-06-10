@@ -11,9 +11,9 @@ gateway:
       uri: http://user-service:8084
     - path: /characters
       uri: http://character-service:8082
-    - path: /arena
+    - path: /fights
       uri: http://arena-service:8083
-    - path: /api/leaderboard
+    - path: /leaderboard
       uri: http://leaderboard-service:8085
 
 management:
