@@ -31,6 +31,8 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "com.fight_club.arena_service.dto,com.figth_club.leaderboard_service.dtos"
+        spring.json.value.default.type: "com.figth_club.leaderboard_service.dtos.FightEndedEvent"
+        spring.json.use.type.headers: false
 
 
 

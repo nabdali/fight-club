@@ -32,6 +32,16 @@ public class AppBoardServiceImpl implements AppBoardService {
         return appBoardRepository.save(newStats);
     }
 
+    private UserStatistic initStatForCharacter(int characterId) {
+        CharacterDetailsDTO character = characterServiceClient.getCharacterById(characterId);
+        UserStatistic stat = new UserStatistic();
+        stat.setIdCharacter(characterId);
+        stat.setIdUser(character.getUserId());
+        stat.setVictoryCounter(0);
+        stat.setDefeatCounter(0);
+        return appBoardRepository.save(stat);
+    }
+
     private UserStatistic createNewStatistic() {
         UserStatistic newStats = new UserStatistic();
         int randomIdUser = ThreadLocalRandom.current().nextInt(0, 100);
@@ -100,10 +110,10 @@ public class AppBoardServiceImpl implements AppBoardService {
 
     public void processMatchResult(long winnerId, long loserId) {
         UserStatistic winner = appBoardRepository.findByIdCharacter((int) winnerId)
-                .orElseThrow(() -> new IllegalArgumentException("Winner introuvable : " + winnerId));
+                .orElseGet(() -> initStatForCharacter((int) winnerId));
 
         UserStatistic loser = appBoardRepository.findByIdCharacter((int) loserId)
-                .orElseThrow(() -> new IllegalArgumentException("Loser introuvable : " + loserId));
+                .orElseGet(() -> initStatForCharacter((int) loserId));
 
         winner.setVictoryCounter(winner.getVictoryCounter() + 1);
         loser.setDefeatCounter(loser.getDefeatCounter() + 1);
