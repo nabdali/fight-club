@@ -62,6 +62,20 @@ public class AppUserService {
         return user.getId();
     }
 
+    public void updateFightStats(Long winnerId, Long looserId) {
+        UserEntity winner = appUserRepository.findById(winnerId.intValue())
+                .orElseThrow(() -> new NotFoundException(USER_SERVICE_USER_NOT_FOUND));
+        UserEntity loser = appUserRepository.findById(looserId.intValue())
+                .orElseThrow(() -> new NotFoundException(USER_SERVICE_USER_NOT_FOUND));
+
+        winner.setVictoryCounter(winner.getVictoryCounter() == null ? 1 : winner.getVictoryCounter() + 1);
+        loser.setDefeatCounter(loser.getDefeatCounter() == null ? 1 : loser.getDefeatCounter() + 1);
+
+        appUserRepository.save(winner);
+        appUserRepository.save(loser);
+        log.info("Updated stats: winner={} victories={}, loser={} defeats={}", winnerId, winner.getVictoryCounter(), looserId, loser.getDefeatCounter());
+    }
+
     public UserStatisticsDTO getUserWithStatistics(Integer userId) {
         UserEntity user = appUserRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(USER_SERVICE_USER_NOT_FOUND));
