@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/api")
+@RequestMapping("/leaderboard")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -26,7 +26,7 @@ public class BoardController {
     private final AppBoardServiceImpl appBoardServiceImpl;
     private final CharacterServiceClient characterServiceClient;
 
-    @RequestMapping("/leaderboard")
+    @RequestMapping()
     public List<UserStatistic> getStats(){
         return appBoardService.getAllStatistics();
     }

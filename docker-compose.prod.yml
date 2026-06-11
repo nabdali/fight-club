@@ -50,6 +50,11 @@ services:
     container_name: fight-club-gateway
     ports:
       - "8080:8080"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    depends_on:
+      kafka:
+        condition: service_healthy
     networks:
       - fight-club-net
     restart: on-failure

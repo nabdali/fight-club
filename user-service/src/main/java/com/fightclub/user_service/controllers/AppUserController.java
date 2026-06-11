@@ -19,7 +19,7 @@ public class AppUserController {
     private final UserMapper userMapper;
 
 
-    @GetMapping("/")
+    @GetMapping
     public List<UserDTO> getUsers() {
         return appUserService.getUsers().stream().map(userMapper::toDto).toList();
     }
