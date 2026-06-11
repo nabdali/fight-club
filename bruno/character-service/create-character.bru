@@ -1,0 +1,19 @@
+meta {
+  name: Create Character
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{characterUrl}}/characters
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Albatros",
+    "characterTypeName": "Archer",
+    "userId": 7
+  }
+}

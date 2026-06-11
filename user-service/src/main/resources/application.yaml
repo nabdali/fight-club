@@ -34,9 +34,9 @@ server:
 
 services:
   character:
-    url: http://character-service:8082
+    url: http://localhost:8082
   leaderboard:
-    url: http://leaderboard-service:8085
+    url: http://localhost:8085
 
 
 

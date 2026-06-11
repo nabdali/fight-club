@@ -1,0 +1,15 @@
+meta {
+  name: Search Characters
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{characterUrl}}/characters/search?name=Albatros
+  body: none
+  auth: none
+}
+
+params:query {
+  name: Albatros
+}

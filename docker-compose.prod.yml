@@ -64,7 +64,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      SERVER_PORT: 8081
+      SERVER_PORT: 8084
     depends_on:
       postgres:
         condition: service_healthy
@@ -124,7 +124,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      SERVER_PORT: 8084
+      SERVER_PORT: 8085
     depends_on:
       postgres:
         condition: service_healthy

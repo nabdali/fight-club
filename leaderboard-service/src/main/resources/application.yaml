@@ -42,5 +42,5 @@ server:
 
 services:
   character:
-    url: http://character-service:8082
+    url: http://localhost:8082
 

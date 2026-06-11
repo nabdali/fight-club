@@ -29,7 +29,7 @@ public class LeaderBoardEventConsumer {
         try {
             appUserService.updateFightStats(event.winnerId(), event.looserId());
         } catch (Exception e) {
-            log.error("Erreur lors du traitement du fight.ended {}", e.getMessage());
+            log.error("Erreur lors du traitement du stats.update {}", e.getMessage());
         }
     }
 }

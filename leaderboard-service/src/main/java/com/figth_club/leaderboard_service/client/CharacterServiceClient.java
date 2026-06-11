@@ -27,7 +27,7 @@ public class CharacterServiceClient {
 
     public CharacterDetailsDTO getCharacterById(Integer characterId) {
         return characterRestClient.get()
-                .uri("/api/characters/{characterId}", characterId)
+                .uri("/characters/{characterId}", characterId)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
                     throw new RuntimeException("Character introuvable : " + characterId);

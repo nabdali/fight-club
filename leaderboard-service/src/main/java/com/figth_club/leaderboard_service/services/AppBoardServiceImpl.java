@@ -10,6 +10,7 @@ import com.figth_club.leaderboard_service.mappers.LeaderboardMapper;
 import com.figth_club.leaderboard_service.messaging.LeaderBoardEventProducer;
 import com.figth_club.leaderboard_service.repositories.AppBoardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AppBoardServiceImpl implements AppBoardService {
@@ -94,7 +96,7 @@ public class AppBoardServiceImpl implements AppBoardService {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération des personnages pour l'user " + idUser + " : " + e.getMessage());
+            log.error("Erreur lors de la récupération des personnages pour l'user " + idUser + " : " + e.getMessage());
         }
 
         List<CharacterStatsDTO> dtoList = new ArrayList<>();
